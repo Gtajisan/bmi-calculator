@@ -27,8 +27,12 @@ function calculateBMI() {
         category = "Normal weight";
     } else if (bmi >= 25 && bmi < 29.9) {
         category = "Overweight";
+    } else if (bmi >= 30 && bmi < 34.9) {
+        category = "Obese Class 1 (Moderate obesity)";
+    } else if (bmi >= 35 && bmi < 39.9) {
+        category = "Obese Class 2 (Severe obesity)";
     } else {
-        category = "Obese";
+        category = "Obese Class 3 (Very severe or morbidly obese)";
     }
 
     // Display the result
