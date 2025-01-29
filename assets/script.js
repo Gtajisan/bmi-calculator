@@ -38,3 +38,7 @@ function calculateBMI() {
     // Display the result
     document.getElementById("result").innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
 }
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}

@@ -47,6 +47,7 @@ button {
     cursor: pointer;
     transition: 0.3s;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 button:hover {
@@ -71,7 +72,7 @@ button:hover {
     background: #E64A19;
 }
 
-/* Buttons */
+/* Button Styling (for dark mode) */
 button {
     background: #007BFF;
     color: white;
@@ -81,7 +82,7 @@ button {
     cursor: pointer;
     transition: 0.3s;
     width: 100%;
-    margin-bottom: 10px; /* Adds space between buttons */
+    margin-bottom: 10px;
 }
 
 button:hover {
