@@ -4,10 +4,21 @@ function calculateBMI() {
     let feet = parseInt(document.getElementById("feet").value);
     let inches = parseInt(document.getElementById("inches").value);
 
+    // Reference to result box
+    let resultBox = document.getElementById("result");
+
     // Check if inputs are valid
     if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
-        document.getElementById("result").style.display = "block";  // Show the result box
-        document.getElementById("result").innerHTML = "Please fill in all fields with valid data";
+        resultBox.style.display = "block"; // Show the result box
+        resultBox.style.opacity = "0";  // Reset opacity for fade-in effect
+        resultBox.innerHTML = "Please fill in all fields with valid data";
+        resultBox.classList.add("error");  // Apply error styling
+
+        // Fade-in animation trigger
+        setTimeout(() => {
+            resultBox.style.opacity = "1";
+        }, 50);
+
         // Automatically reset on invalid attempt
         setTimeout(resetForm, 1500);
         return;
@@ -26,26 +37,45 @@ function calculateBMI() {
     let category = "";
     if (bmi < 18.5) {
         category = "Underweight";
+        resultBox.className = "underweight"; // Apply category styling
     } else if (bmi >= 18.5 && bmi < 24.9) {
         category = "Normal weight";
+        resultBox.className = "normal";
     } else if (bmi >= 25 && bmi < 29.9) {
         category = "Overweight";
+        resultBox.className = "overweight";
     } else if (bmi >= 30 && bmi < 34.9) {
         category = "Obese Class 1 (Moderate obesity)";
+        resultBox.className = "obese1";
     } else if (bmi >= 35 && bmi < 39.9) {
         category = "Obese Class 2 (Severe obesity)";
+        resultBox.className = "obese2";
     } else {
         category = "Obese Class 3 (Very severe or morbidly obese)";
+        resultBox.className = "obese3";
     }
 
     // Display the result
-    document.getElementById("result").style.display = "block";  // Show the result box
-    document.getElementById("result").innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
+    resultBox.style.display = "block";  // Show the result box
+    resultBox.style.opacity = "0"; // Reset opacity for fade-in effect
+    resultBox.innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
+
+    // Fade-in animation trigger
+    setTimeout(() => {
+        resultBox.style.opacity = "1";
+    }, 50);
 }
 
 function resetForm() {
-    // Hide the result box
-    document.getElementById("result").style.display = "none";
+    let resultBox = document.getElementById("result");
+
+    // Hide the result box smoothly
+    resultBox.style.opacity = "0";
+
+    setTimeout(() => {
+        resultBox.style.display = "none";
+        resultBox.className = ""; // Reset any category class
+    }, 300);
 
     // Clear input fields
     document.getElementById("weight").value = "";
