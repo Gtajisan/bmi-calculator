@@ -42,3 +42,11 @@ function calculateBMI() {
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
 }
+
+// Reset function to clear the input fields and result
+function resetForm() {
+    document.getElementById("weight").value = "";
+    document.getElementById("feet").value = "";
+    document.getElementById("inches").value = "";
+    document.getElementById("result").innerHTML = "";
+}
