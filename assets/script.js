@@ -1,9 +1,11 @@
 function calculateBMI() {
+    // Get input values from the user
     let weight = parseFloat(document.getElementById("weight").value);
     let feet = parseInt(document.getElementById("feet").value);
     let inches = parseInt(document.getElementById("inches").value);
 
-    if (isNaN(weight) || isNaN(feet) || isNaN(inches)) {
+    // Check if inputs are valid
+    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0) {
         document.getElementById("result").innerHTML = "Please fill in all fields with valid data.";
         return;
     }
@@ -14,7 +16,7 @@ function calculateBMI() {
     // Convert height from inches to meters (1 inch = 0.0254 meters)
     let heightInMeters = totalInches * 0.0254;
 
-    // Calculate BMI
+    // Calculate BMI: BMI = weight (kg) / (height (m) ^ 2)
     let bmi = weight / (heightInMeters * heightInMeters);
 
     // Categorize BMI
