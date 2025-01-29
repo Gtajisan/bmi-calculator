@@ -127,3 +127,8 @@ button:hover {
     margin-top: 20px;
     border-radius: 5px;
 }
+
+/* Add margin to the bottom of the result box */
+#result {
+    margin-bottom: 10px;
+}
