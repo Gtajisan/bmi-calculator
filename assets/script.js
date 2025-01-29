@@ -5,8 +5,8 @@ function calculateBMI() {
     let inches = parseInt(document.getElementById("inches").value);
 
     // Check if inputs are valid
-    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0) {
-        document.getElementById("result").innerHTML = "Please fill in all fields with valid data.";
+    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
+        document.getElementById("result").innerHTML = "Please fill in all fields with valid data (inches should be between 0 and 11).";
         return;
     }
 
