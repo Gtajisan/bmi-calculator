@@ -9,24 +9,20 @@
 <body>
     <div class="container">
         <h2>BMI Calculator</h2>
-        <label>
-            <input type="radio" name="unit" value="metric" checked> Metric (kg, cm)
-        </label>
-        <label>
-            <input type="radio" name="unit" value="imperial"> Imperial (lbs, feet, inches)
-        </label>
 
         <div class="input-group">
-            <label>Weight:</label>
-            <input type="number" id="weight" placeholder="Enter weight">
-            <span id="weightUnit">kg</span>
+            <label>Weight (kg):</label>
+            <input type="number" id="weight" placeholder="Enter weight in kg">
         </div>
 
         <div class="input-group">
-            <label>Height:</label>
-            <input type="number" id="height1" placeholder="Enter height">
-            <span id="heightUnit">cm</span>
-            <input type="number" id="height2" placeholder="Inches" style="display:none;">
+            <label>Height (feet):</label>
+            <input type="number" id="feet" placeholder="Feet">
+        </div>
+
+        <div class="input-group">
+            <label>Height (inches):</label>
+            <input type="number" id="inches" placeholder="Inches">
         </div>
 
         <button onclick="calculateBMI()">Calculate BMI</button>
