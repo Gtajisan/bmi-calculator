@@ -8,6 +8,8 @@ function calculateBMI() {
     if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
         document.getElementById("result").style.display = "block";  // Show the result box
         document.getElementById("result").innerHTML = "Please fill in all fields with valid data";
+        // Automatically reset on invalid attempt
+        setTimeout(resetForm, 1500);
         return;
     }
 
