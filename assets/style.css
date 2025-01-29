@@ -1,42 +1,72 @@
+/* General Reset */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     text-align: center;
-    background: #f4f4f4;
     margin: 0;
     padding: 20px;
 }
+
+/* Container */
 .container {
     background: white;
-    padding: 20px;
     max-width: 400px;
     margin: auto;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Headings */
+h2 {
+    color: #007BFF;
+}
+
+/* Input Fields */
+.input-group {
+    margin: 10px 0;
+    text-align: left;
+}
+
 input {
-    width: 80%;
-    padding: 8px;
-    margin: 5px;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
+/* Buttons */
 button {
-    background: blue;
+    background: #007BFF;
     color: white;
     padding: 10px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
 }
+
 button:hover {
-    background: darkblue;
+    background: #0056b3;
 }
-#result {
-    margin-top: 15px;
-    font-weight: bold;
-}
+
+/* Dark Mode */
 .dark-mode {
-    background: #333;
+    background-color: #1e1e1e;
     color: white;
 }
+
 .dark-mode .container {
-    background: #444;
-    color: white;
+    background: #333;
+}
+
+.dark-mode button {
+    background: #FF5722;
+}
+
+.dark-mode button:hover {
+    background: #E64A19;
 }
