@@ -6,6 +6,7 @@ function calculateBMI() {
 
     // Check if inputs are valid
     if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
+        document.getElementById("result").style.display = "block";  // Show the result box
         document.getElementById("result").innerHTML = "Please fill in all fields with valid data";
         return;
     }
@@ -36,17 +37,20 @@ function calculateBMI() {
     }
 
     // Display the result
+    document.getElementById("result").style.display = "block";  // Show the result box
     document.getElementById("result").innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
+}
+
+function resetForm() {
+    // Hide the result box
+    document.getElementById("result").style.display = "none";
+
+    // Clear input fields
+    document.getElementById("weight").value = "";
+    document.getElementById("feet").value = "";
+    document.getElementById("inches").value = "";
 }
 
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
-}
-
-// Reset function to clear the input fields and result
-function resetForm() {
-    document.getElementById("weight").value = "";
-    document.getElementById("feet").value = "";
-    document.getElementById("inches").value = "";
-    document.getElementById("result").innerHTML = "";
 }
