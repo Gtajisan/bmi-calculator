@@ -13,11 +13,11 @@
 5. Get your BMI result
 
 #### Demo
-- Check out: [Live Demo](https://tanvirr007.github.io/bmi-calculator)
+- Check out: [Live Demo](https://Gtajisan.github.io/bmi-calculator)
 
 #### Setup
 - Clone the repo and open "index.html" in a browser:
 ```bash
-git clone https://github.com/tanvirr007/bmi-calculator.git
+git clone https://github.com/Gtajisan/bmi-calculator.git
 cd bmi-calculator
 ```
