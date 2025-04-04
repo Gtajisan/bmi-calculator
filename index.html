@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="./assets/style.css">
     <style>
         body {
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffdde1);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
+            text-align: center;
         }
 
         @keyframes gradientBG {
@@ -24,163 +25,53 @@
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
-            text-align: center;
             max-width: 400px;
             margin: auto;
             margin-top: 50px;
         }
 
-        select {
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        .dark-mode {
+            background: #222;
+            color: white;
         }
 
-        #clock {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        button {
+            margin: 10px;
+            padding: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Clock display -->
-        <div id="clock"></div>
+        <h2 id="title">BMI Calculator</h2>
+        <p>Developed by Farhan</p>
+        <p>Lead Source: Tanvir Hasan</p>
 
-        <!-- Language selection dropdown -->
-        <div>
-            <label for="language-select">Choose Language:</label>
-            <select id="language-select" onchange="changeLanguage()">
-                <option value="en">English</option>
-                <option value="es">Español (Spanish)</option>
-                <option value="fr">Français (French)</option>
-                <option value="de">Deutsch (German)</option>
-            </select>
-        </div>
-
-        <h2 id="bmi-title">BMI Calculator</h2>
-        <p id="developer-credit">Developed by Farhan</p>
-        <p id="credit">Lead Source Credit: Tanvir Hasan</p>
+        <label for="timezone">Select Time Zone:</label>
+        <select id="timezone"></select>
+        <p id="clock"></p>
 
         <div class="input-group">
-            <label for="weight" id="weight-label"><b>Weight (kg):</b></label>
-            <input type="number" id="weight" placeholder="Enter weight" oninput="calculateBMI()" min="1">
+            <label id="weight-label"><b>Weight (kg):</b></label>
+            <input type="number" id="weight" placeholder="Enter weight" min="1">
         </div>
 
         <div class="input-group">
-            <label for="height-feet" id="height-label"><b>Height:</b></label>
-            <input type="number" id="feet" placeholder="Feet" oninput="calculateBMI()" min="0">
-            <input type="number" id="inches" placeholder="Inches" oninput="calculateBMI()" min="0" max="11">
+            <label id="height-label"><b>Height:</b></label>
+            <input type="number" id="feet" placeholder="Feet" min="0">
+            <input type="number" id="inches" placeholder="Inches" min="0" max="11">
         </div>
 
-        <button onclick="calculateBMI()" id="calculate-btn">Calculate BMI</button>
+        <button id="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
+        <button id="resetButton" onclick="resetForm()">Reset</button>
+        <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
+        <button id="translateButton" onclick="toggleLanguage()">বাংলা</button>
 
         <div id="result" style="display: none;"></div>
-        
         <p id="bmi-category"></p>
-
-        <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
-        <button id="resetButton" onclick="resetForm()">Reset</button>
-
-        <!-- Background color selection dropdown -->
-        <div>
-            <label for="background-theme" id="background-label">Choose Background Color:</label>
-            <select id="background-theme" onchange="changeBackgroundColor()">
-                <option value="gradient">Gradient</option>
-                <option value="blue">Blue Theme</option>
-                <option value="green">Green Theme</option>
-                <option value="orange">Orange Theme</option>
-            </select>
-        </div>
     </div>
 
     <script src="./assets/script.js"></script>
-
-    <script>
-        // Function to update the clock
-        function updateClock() {
-            var now = new Date();
-            var hours = now.getHours().toString().padStart(2, '0');
-            var minutes = now.getMinutes().toString().padStart(2, '0');
-            var seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById("clock").innerHTML = `${hours}:${minutes}:${seconds}`;
-        }
-
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-
-        // Function to change background color
-        function changeBackgroundColor() {
-            var theme = document.getElementById("background-theme").value;
-            switch(theme) {
-                case "blue":
-                    document.body.style.background = "linear-gradient(45deg, #00c6ff, #0072ff)";
-                    break;
-                case "green":
-                    document.body.style.background = "linear-gradient(45deg, #56ab2f, #a8e063)";
-                    break;
-                case "orange":
-                    document.body.style.background = "linear-gradient(45deg, #ff7e5f, #feb47b)";
-                    break;
-                default:
-                    document.body.style.background = "linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1)";
-                    break;
-            }
-        }
-
-        // Function to change language
-        function changeLanguage() {
-            var lang = document.getElementById("language-select").value;
-            var translations = {
-                en: {
-                    title: "BMI Calculator",
-                    weightLabel: "Weight (kg):",
-                    heightLabel: "Height:",
-                    calculateBtn: "Calculate BMI",
-                    developerCredit: "Developed by Farhan",
-                    credit: "Lead Source Credit: Tanvir Hasan",
-                    backgroundLabel: "Choose Background Color:"
-                },
-                es: {
-                    title: "Calculadora de IMC",
-                    weightLabel: "Peso (kg):",
-                    heightLabel: "Altura:",
-                    calculateBtn: "Calcular IMC",
-                    developerCredit: "Desarrollado por Farhan",
-                    credit: "Crédito de fuente principal: Tanvir Hasan",
-                    backgroundLabel: "Elegir color de fondo:"
-                },
-                fr: {
-                    title: "Calculateur IMC",
-                    weightLabel: "Poids (kg):",
-                    heightLabel: "Taille:",
-                    calculateBtn: "Calculer IMC",
-                    developerCredit: "Développé par Farhan",
-                    credit: "Crédit source principal : Tanvir Hasan",
-                    backgroundLabel: "Choisir la couleur de fond:"
-                },
-                de: {
-                    title: "BMI Rechner",
-                    weightLabel: "Gewicht (kg):",
-                    heightLabel: "Größe:",
-                    calculateBtn: "BMI berechnen",
-                    developerCredit: "Entwickelt von Farhan",
-                    credit: "Lead-Quelle: Tanvir Hasan",
-                    backgroundLabel: "Hintergrundfarbe wählen:"
-                }
-            };
-
-            // Apply selected language
-            document.getElementById("bmi-title").innerText = translations[lang].title;
-            document.getElementById("weight-label").innerText = translations[lang].weightLabel;
-            document.getElementById("height-label").innerText = translations[lang].heightLabel;
-            document.getElementById("calculate-btn").innerText = translations[lang].calculateBtn;
-            document.getElementById("developer-credit").innerText = translations[lang].developerCredit;
-            document.getElementById("credit").innerText = translations[lang].credit;
-            document.getElementById("background-label").innerText = translations[lang].backgroundLabel;
-        }
-    </script>
 </body>
 </html>
