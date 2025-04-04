@@ -6,38 +6,90 @@
     <title>Advanced BMI Calculator</title>
     <style>
         body {
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffdde1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
             text-align: center;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         .container {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            max-width: 400px;
-            margin: auto;
-            margin-top: 50px;
         }
 
-        .dark-mode {
-            background: #222;
-            color: white;
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
         }
 
         button {
-            margin: 10px;
-            padding: 10px;
+            padding: 12px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #bmi-category {
+            font-weight: bold;
+        }
+
+        #resetButton {
+            background-color: #f44336;
+        }
+
+        #toggleDarkMode {
+            background-color: #333;
+        }
+
+        #resetButton, #toggleDarkMode {
+            margin-top: 10px;
+        }
+
+        #clock {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .dark-mode {
+            background-color: #222;
+            color: white;
+        }
+
+        .dark-mode button {
+            background-color: #444;
         }
     </style>
 </head>
@@ -47,57 +99,78 @@
         <p>Developed by Farhan</p>
         <p>Lead Source: Tanvir Hasan</p>
 
-        <label for="timezone">Select Time Zone:</label>
-        <select id="timezone"></select>
-        <p id="clock"></p>
-
         <div class="input-group">
-            <label id="weight-label"><b>Weight (kg):</b></label>
+            <label><b>Weight (kg):</b></label>
             <input type="number" id="weight" placeholder="Enter weight" min="1">
         </div>
 
         <div class="input-group">
-            <label id="height-label"><b>Height:</b></label>
+            <label><b>Height:</b></label>
             <input type="number" id="feet" placeholder="Feet" min="0">
             <input type="number" id="inches" placeholder="Inches" min="0" max="11">
         </div>
 
-        <button id="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
+        <button onclick="calculateBMI()">Calculate BMI</button>
+        <div id="result"></div>
+        <p id="bmi-category"></p>
+
         <button id="resetButton" onclick="resetForm()">Reset</button>
         <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
-        <button id="translateButton" onclick="toggleLanguage()">বাংলা</button>
 
-        <div id="result" style="display: none;"></div>
-        <p id="bmi-category"></p>
+        <div>
+            <p id="clock"></p>
+        </div>
+
+        <button id="translateButton" onclick="toggleLanguage()">বাংলা</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            updateClock();
-            setInterval(updateClock, 1000);
-            populateTimeZones();
-        });
+        let language = "en";
+        const translations = {
+            en: {
+                title: "BMI Calculator",
+                weightLabel: "Weight (kg):",
+                heightLabel: "Height:",
+                calculate: "Calculate BMI",
+                reset: "Reset",
+                switchTheme: "Switch Theme",
+                translate: "বাংলা",
+                yourBMI: "Your BMI:",
+                category: "Category:",
+                underweight: "Underweight",
+                normalWeight: "Normal weight",
+                overweight: "Overweight",
+                obese: "Obese",
+                weightError: "Please enter a valid weight in kg.",
+                heightError: "Please enter a valid height in feet and inches.",
+                invalidHeight: "Height must be greater than zero."
+            },
+            bn: {
+                title: "বিএমআই ক্যালকুলেটর",
+                weightLabel: "ওজন (কেজি):",
+                heightLabel: "উচ্চতা:",
+                calculate: "বিএমআই হিসাব করুন",
+                reset: "রিসেট",
+                switchTheme: "থিম পরিবর্তন করুন",
+                translate: "English",
+                yourBMI: "আপনার বিএমআই:",
+                category: "বিভাগ:",
+                underweight: "অপর্যাপ্ত ওজন",
+                normalWeight: "স্বাভাবিক ওজন",
+                overweight: "অতিরিক্ত ওজন",
+                obese: "স্থূল",
+                weightError: "দয়া করে বৈধ ওজন দিন (কেজিতে)।",
+                heightError: "দয়া করে বৈধ উচ্চতা দিন (ফুট এবং ইঞ্চি)।",
+                invalidHeight: "উচ্চতা অবশ্যই শূন্যের বেশি হতে হবে।"
+            }
+        };
 
         function updateClock() {
-            let timeZone = document.getElementById("timezone").value || "UTC";
+            let timeZone = "Asia/Dhaka"; // Bangladesh Time Zone (BST)
             let now = new Date();
             let options = { timeZone: timeZone, hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" };
             let timeString = now.toLocaleTimeString("en-US", options);
-            document.getElementById("clock").innerText = `Time (${timeZone}): ${timeString}`;
-        }
-
-        function populateTimeZones() {
-            let timeZoneSelect = document.getElementById("timezone");
-            let timeZones = Intl.supportedValuesOf("timeZone");
-
-            timeZones.forEach((zone) => {
-                let option = document.createElement("option");
-                option.value = zone;
-                option.textContent = zone;
-                timeZoneSelect.appendChild(option);
-            });
-
-            timeZoneSelect.addEventListener("change", updateClock);
+            document.getElementById("clock").innerText = `Time (BST): ${timeString}`;
         }
 
         function calculateBMI() {
@@ -147,53 +220,27 @@
 
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
+            let container = document.querySelector(".container");
+            container.classList.toggle("dark-mode");
+            let buttons = document.querySelectorAll("button");
+            buttons.forEach(button => button.classList.toggle("dark-mode"));
         }
-
-        let language = "en";
-        const translations = {
-            en: {
-                title: "BMI Calculator",
-                weightLabel: "Weight (kg):",
-                heightLabel: "Height:",
-                calculate: "Calculate BMI",
-                reset: "Reset",
-                switchTheme: "Switch Theme",
-                translate: "বাংলা",
-                yourBMI: "Your BMI:",
-                category: "Category:",
-                underweight: "Underweight",
-                normalWeight: "Normal weight",
-                overweight: "Overweight",
-                obese: "Obese",
-                weightError: "Please enter a valid weight in kg.",
-                heightError: "Please enter a valid height in feet and inches.",
-                invalidHeight: "Height must be greater than zero."
-            },
-            bn: {
-                title: "বিএমআই ক্যালকুলেটর",
-                weightLabel: "ওজন (কেজি):",
-                heightLabel: "উচ্চতা:",
-                calculate: "বিএমআই হিসাব করুন",
-                reset: "রিসেট",
-                switchTheme: "থিম পরিবর্তন করুন",
-                translate: "English",
-                yourBMI: "আপনার বিএমআই:",
-                category: "বিভাগ:",
-                underweight: "অপর্যাপ্ত ওজন",
-                normalWeight: "স্বাভাবিক ওজন",
-                overweight: "অতিরিক্ত ওজন",
-                obese: "স্থূল",
-                weightError: "দয়া করে বৈধ ওজন দিন (কেজিতে)।",
-                heightError: "দয়া করে বৈধ উচ্চতা দিন (ফুট এবং ইঞ্চি)।",
-                invalidHeight: "উচ্চতা অবশ্যই শূন্যের বেশি হতে হবে।"
-            }
-        };
 
         function toggleLanguage() {
             language = language === "en" ? "bn" : "en";
             document.getElementById("translateButton").innerText = translations[language].translate;
             document.getElementById("title").innerText = translations[language].title;
+            document.getElementById("weight-label").innerText = translations[language].weightLabel;
+            document.getElementById("height-label").innerText = translations[language].heightLabel;
+            document.getElementById("calculate-btn").innerText = translations[language].calculate;
+            document.getElementById("resetButton").innerText = translations[language].reset;
+            document.getElementById("toggleDarkMode").innerText = translations[language].switchTheme;
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateClock();
+            setInterval(updateClock, 1000); // Update clock every second
+        });
     </script>
 </body>
 </html>
