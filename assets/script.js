@@ -1,68 +1,91 @@
-// AI Health Advisor (Multi-language)
-const aiDoctor = {
+// script.js
+const AI_ADVISOR = {
     underweight: {
-        en: "🚨 CYBER-DIAGNOSIS: NUTRIENT BOOST REQUIRED! Consume protein matrices and energy gels.",
-        hi: "🚨 साइबर-निदान: पोषक तत्व बूस्ट आवश्यक! प्रोटीन मैट्रिक्स और ऊर्जा जेल का सेवन करें।",
-        bn: "🚨 সাইবার-ডায়াগনোসিস: পুষ্টি বুস্ট প্রয়োজন! প্রোটিন ম্যাট্রিক্স এবং শক্তি জেল গ্রহণ করুন।",
-        tr: "🚨 SİBER-TEŞHİS: BESİN TAKVİYESİ GEREKLİ! Protein matrisleri ve enerji jelleri tüketin.",
-        id: "🚨 DIAGNOSIS CYBER: BUTUH NUTRISI TAMBAHAN! Konsumsi matriks protein dan gel energi."
+        en: "🔍 Nutritional Boost Needed: Increase protein intake with eggs and dairy",
+        hi: "🔍 पोषण बढ़ाएँ: अंडे और दूध उत्पादों का सेवन बढ़ाएं",
+        bn: "🔍 পুষ্টি বৃদ্ধি করুন: ডিম এবং দুধ পণ্য খান",
+        tr: "🔍 Besin Artırın: Yumurta ve süt ürünleri tüketin",
+        id: "🔍 Tingkatkan Nutrisi: Konsumsi telur dan produk susu"
     },
     normal: {
-        en: "✅ SYSTEM OPTIMAL: Maintain neural synchronization with regular training protocols.",
-        hi: "✅ सिस्टम इष्टतम: नियमित प्रशिक्षण प्रोटोकॉल के साथ तंत्रिका तुल्यकालन बनाए रखें।",
-        bn: "✅ সিস্টেম সর্বোত্তম: নিয়মিত প্রশিক্ষণ প্রোটোকল সহ স্নায়ু সিঙ্ক্রোনাইজেশন বজায় রাখুন।",
-        tr: "✅ SİSTEM OPTİMUM: Düzenli eğitim protokolleri ile nöral senkronizasyonu koruyun.",
-        id: "✅ SISTEM OPTIMAL: Pertahankan sinkronisasi neural dengan protokol pelatihan rutin."
+        en: "✅ Optimal Health: Maintain current diet with weekly exercise",
+        hi: "✅ उत्तम स्वास्थ्य: साप्ताहिक व्यायाम के साथ आहार जारी रखें",
+        bn: "✅ সর্বোত্তম স্বাস্থ্য: সাপ্তাহিক ব্যায়াম সঙ্গে খাদ্য বজায় রাখুন",
+        tr: "✅ Optimal Sağlık: Haftalık egzersizle diyete devam edin",
+        id: "✅ Kesehatan Optimal: Pertahankan diet dengan olahraga mingguan"
     }
 };
 
-// Neural Network Translator
-const cyberTranslations = {
-    en: { weight: "Neural Mass (kg):", height: "Neural Height:", calculate: "Initiate Scan" },
-    hi: { weight: "न्यूरल मास (किलो):", height: "न्यूरल ऊंचाई:", calculate: "स्कैन आरंभ करें" },
-    bn: { weight: "নিউরাল ভর (কেজি):", height: "নিউরাল উচ্চতা:", calculate: "স্ক্যান শুরু করুন" },
-    tr: { weight: "Nöral Kütle (kg):", height: "Nöral Yükseklik:", calculate: "Tarama Başlat" },
-    id: { weight: "Massa Neural (kg):", height: "Tinggi Neural:", calculate: "Mulai Pemindaian" }
-};
+let currentLang = 'en';
 
-// Quantum Time System
-function updateQuantumClock() {
+function updateTranslations() {
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        el.textContent = TRANSLATIONS[currentLang][key];
+    });
+}
+
+function calculateHealth() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const feet = parseInt(document.getElementById('feet').value);
+    const inches = parseInt(document.getElementById('inches').value);
+    
+    // BMI Calculation Logic
+    const totalInches = (feet * 12) + inches;
+    const heightMeters = totalInches * 0.0254;
+    const bmi = weight / (heightMeters ** 2);
+
+    // AI Advice
+    let category = bmi < 18.5 ? 'underweight' : 'normal';
+    document.getElementById('aiMessage').innerHTML = AI_ADVISOR[category][currentLang];
+}
+
+// Time & Location System
+function updateLiveClock() {
     const options = {
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        fractionalSecondDigits: 3
+        second: '2-digit'
     };
-    document.getElementById('liveClock').innerHTML = 
-        `🕒 ${new Date().toLocaleTimeString(navigator.language, options)}<sup>${Math.floor(Math.random()*9)}</sup>`;
+    document.getElementById('liveClock').textContent = 
+        new Date().toLocaleTimeString(navigator.language, options);
 }
 
-// GPS Neural Locator
-function activateGPSTracking() {
+function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(position => {
-            document.getElementById('location').innerHTML = 
-                `📡 ${position.coords.latitude.toFixed(4)}N ${position.coords.longitude.toFixed(4)}E`;
+        navigator.geolocation.getCurrentPosition(pos => {
+            document.getElementById('location').textContent = 
+                `📍 ${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`;
         });
     }
 }
 
-// System Core
-function initCyberSystem() {
-    // Language detection
-    const userLang = navigator.language.split('-')[0] || 'en';
-    document.getElementById('language').value = userLang;
-    updateTranslations(userLang);
-    
-    // Start systems
-    setInterval(updateQuantumClock, 1);
-    activateGPSTracking();
-    
-    // Load quantum state
-    loadSystemState();
+// Theme Management
+function changeTheme(theme) {
+    document.body.className = `${theme}-theme`;
+    localStorage.setItem('selectedTheme', theme);
 }
 
-// Initialize cyber module
-window.onload = initCyberSystem;
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-theme');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-theme'));
+}
+
+// Initialize System
+function init() {
+    // Language Setup
+    currentLang = navigator.language.split('-')[0] || 'en';
+    document.getElementById('language').value = currentLang;
+    updateTranslations();
+
+    // Time System
+    setInterval(updateLiveClock, 1000);
+    getLocation();
+
+    // Theme System
+    const savedTheme = localStorage.getItem('selectedTheme') || 'coral';
+    changeTheme(savedTheme);
+}
+
+window.onload = init;
