@@ -1,60 +1,65 @@
-/* Cyberpunk Base */
+/* style.css */
 :root {
-    --matrix-green: #00ff4c;
-    --neon-pink: #ff00ff;
-    --cyber-blue: #00f7ff;
-    --blood-red: #ff003c;
-    --hologram-bg: rgba(0,0,0,0.95);
+    /* Default Light Theme */
+    --primary-color: #2c3e50;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --accent-color: #007bff;
 }
 
-body {
-    background: radial-gradient(circle, #000000 0%, #130022 100%);
-    font-family: 'Oxanium', monospace;
-    min-height: 100vh;
-    overflow: hidden;
+/* Lightning Header */
+.developer-header {
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(90deg, #007bff, #00ff88);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: lightning 1.5s infinite alternate;
 }
 
-/* Holographic Interface */
-.cyber-container {
-    background: var(--hologram-bg);
-    border: 1px solid var(--matrix-green);
-    box-shadow: 0 0 50px rgba(0,255,76,0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 5px;
+@keyframes lightning {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; text-shadow: 0 0 15px #00ff88; }
 }
 
-/* Glitch Animation */
-@keyframes glitch {
-    0% { text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue); }
-    25% { text-shadow: -3px 0 0 var(--neon-pink), 3px 0 0 var(--cyber-blue); }
-    50% { text-shadow: 3px 0 0 var(--blood-red), -3px 0 0 var(--matrix-green); }
-    75% { text-shadow: -3px 0 0 var(--blood-red), 3px 0 0 var(--matrix-green); }
-    100% { text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue); }
+/* Background Animation */
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        rgba(0,123,255,0.1),
+        rgba(108,117,125,0.1),
+        rgba(0,255,136,0.1));
+    animation: bg-flow 20s linear infinite;
+    z-index: -1;
+    opacity: 0.3;
 }
 
-.glitch-text {
-    animation: glitch 1s infinite;
-    text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue);
+@keyframes bg-flow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Theme System */
-.theme-orb {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+.coral-theme {
+    --primary-color: #ff6b6b;
+    --accent-color: #ff8e53;
 }
 
-.theme-orb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 15px currentColor;
+.sky-theme {
+    --primary-color: #00b4d8;
+    --accent-color: #0077b6;
 }
 
-/* Dark Mode Toggle */
-.matrix-theme .theme-orb.matrix {
-    background: var(--matrix-green);
-    box-shadow: 0 0 20px var(--matrix-green);
+.dark-theme {
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #bb86fc;
 }
 
-/* Full CSS available in enhanced version */
+/* Full CSS available in final version */
