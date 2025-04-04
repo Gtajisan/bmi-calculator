@@ -1,77 +1,77 @@
 <!DOCTYPE html>
-<html lang="x-default" dir="auto">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global BMI Master</title>
+    <title>AI Health Companion</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="matrix-theme">
-    <!-- Animated Background Elements -->
-    <div class="particles"></div>
-    <div class="neon-grid"></div>
+<body class="light-theme">
+    <!-- Developer Header -->
+    <header class="developer-header">
+        <div class="lightning-text">⚡ Developed by Farhan ⚡</div>
+    </header>
 
-    <!-- Main Container -->
-    <div class="cyber-container">
-        <!-- Animated Header -->
-        <div class="holographic-header">
-            <div class="glitch-text" data-text="HEALTH AI">HEALTH AI</div>
-        </div>
-
-        <!-- Control Panel -->
-        <div class="neuro-panel">
-            <div class="panel-section">
-                <div class="time-display" id="liveClock"></div>
-                <div class="gps-display" id="location"></div>
-            </div>
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="panel-section">
+            <select id="language" class="styled-select">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="bn">বাংলা</option>
+                <option value="tr">Türkçe</option>
+                <option value="id">Bahasa</option>
+            </select>
             
-            <div class="panel-section">
-                <select id="language" class="neon-select">
-                    <option value="en">🌐 English</option>
-                    <option value="hi">🌐 हिन्दी</option>
-                    <option value="bn">🌐 বাংলা</option>
-                    <option value="tr">🌐 Türkçe</option>
-                    <option value="id">🌐 Bahasa</option>
-                </select>
-                
-                <div class="theme-orb-container">
-                    <div class="theme-orb red" onclick="changeTheme('blood-moon')"></div>
-                    <div class="theme-orb blue" onclick="changeTheme("cyber-ocean")"></div>
-                    <div class="theme-orb matrix" onclick="toggleDarkMode()"></div>
-                </div>
+            <div class="theme-switcher">
+                <button class="theme-btn coral" onclick="changeTheme('coral')"></button>
+                <button class="theme-btn sky" onclick="changeTheme('sky')"></button>
+                <button class="theme-btn dark" onclick="toggleDarkMode()">🌓</button>
             </div>
         </div>
 
-        <!-- Calculator Interface -->
-        <div class="cyber-form">
-            <div class="input-holo">
-                <label data-lang="weight">Weight (kg):</label>
-                <input type="number" id="weight" class="neon-input">
-            </div>
-            
-            <div class="input-holo">
-                <label data-lang="height">Height:</label>
-                <div class="dimension-inputs">
-                    <input type="number" id="feet" class="neon-input">
-                    <input type="number" id="inches" class="neon-input">
-                </div>
-            </div>
+        <div class="panel-section">
+            <div id="liveClock" class="glowing-clock"></div>
+            <div id="location" class="location-badge"></div>
+        </div>
+    </div>
 
-            <div class="action-grid">
-                <button onclick="calculateBMI()" class="cyber-button" data-lang="calculate">
-                    <span class="btn-glitch">CALCULATE</span>
-                </button>
-                <button onclick="fullReset()" class="cyber-button danger">
-                    <span class="btn-glitch">RESET SYSTEM</span>
-                </button>
+    <!-- Classic Calculator UI -->
+    <div class="classic-ui">
+        <div class="input-group">
+            <label data-translate="weight">Weight (kg):</label>
+            <input type="number" id="weight" class="vintage-input">
+        </div>
+        
+        <div class="input-group">
+            <label data-translate="height">Height:</label>
+            <div class="height-inputs">
+                <input type="number" id="feet" class="vintage-input">
+                <input type="number" id="inches" class="vintage-input">
             </div>
         </div>
 
-        <!-- AI Advisor -->
-        <div class="ai-terminal" id="aiAdvice">
-            <div class="scanline"></div>
-            <div class="ai-response" id="adviceText"></div>
+        <div class="action-btns">
+            <button onclick="calculateHealth()" class="primary-btn">
+                <span data-translate="calculate">Calculate BMI</span>
+            </button>
+            <button onclick="fullReset()" class="secondary-btn">
+                <span data-translate="reset">Full Reset</span>
+            </button>
         </div>
+
+        <!-- AI Advice Section -->
+        <div class="ai-panel">
+            <div class="ai-header">🧠 AI Health Advisor</div>
+            <div id="aiMessage" class="advice-content"></div>
+        </div>
+    </div>
+
+    <!-- Animation Controls -->
+    <div class="animation-controls">
+        <button onclick="toggleBackgroundAnimation()" class="anim-btn">
+            <span data-translate="toggleAnim">Toggle Background Effects</span>
+        </button>
     </div>
 
     <script src="script.js"></script>
