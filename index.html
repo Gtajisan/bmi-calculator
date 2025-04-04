@@ -29,12 +29,29 @@
             margin: auto;
             margin-top: 50px;
         }
+
+        select {
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #clock {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Clock display -->
+        <div id="clock"></div>
+
         <h2>BMI Calculator</h2>
         <p>Developed by Farhan</p>
+        <p>Lead Source Credit: Tanvir Hasan</p>
 
         <div class="input-group">
             <label><b>Weight (kg):</b></label>
@@ -55,8 +72,51 @@
 
         <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
         <button id="resetButton" onclick="resetForm()">Reset</button>
+
+        <!-- Background color selection dropdown -->
+        <div>
+            <label for="background-theme">Choose Background Color:</label>
+            <select id="background-theme" onchange="changeBackgroundColor()">
+                <option value="gradient">Gradient</option>
+                <option value="blue">Blue Theme</option>
+                <option value="green">Green Theme</option>
+                <option value="orange">Orange Theme</option>
+            </select>
+        </div>
     </div>
 
     <script src="./assets/script.js"></script>
+
+    <script>
+        // Function to update the clock
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById("clock").innerHTML = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        function changeBackgroundColor() {
+            var theme = document.getElementById("background-theme").value;
+            switch(theme) {
+                case "blue":
+                    document.body.style.background = "linear-gradient(45deg, #00c6ff, #0072ff)";
+                    break;
+                case "green":
+                    document.body.style.background = "linear-gradient(45deg, #56ab2f, #a8e063)";
+                    break;
+                case "orange":
+                    document.body.style.background = "linear-gradient(45deg, #ff7e5f, #feb47b)";
+                    break;
+                default:
+                    document.body.style.background = "linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1)";
+                    break;
+            }
+        }
+    </script>
 </body>
 </html>
