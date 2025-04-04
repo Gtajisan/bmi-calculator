@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
+    <title>Ultimate BMI Calculator</title>
     <link rel="stylesheet" href="./assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="background-slideshow"></div>
+    <div class="animated-background"></div>
+    
     <div class="container">
         <div class="header">
-            <h2 id="title">BMI Calculator</h2>
-            <div class="time-display" id="bangladesh-time"></div>
+            <h2 id="main-title">BMI Calculator</h2>
+            <div class="real-time-info">
+                <span id="bangladesh-time"></span>
+                <span id="health-status-indicator"></span>
+            </div>
         </div>
 
-        <div class="settings-panel">
+        <div class="control-panel">
             <div class="language-selector">
                 <select id="language-select">
                     <option value="en">English</option>
@@ -25,41 +29,56 @@
                     <option value="tr">Türkçe</option>
                 </select>
             </div>
-            <div class="color-options">
-                <div class="color-option" style="background-color: #007BFF;" data-color="#007BFF"></div>
-                <div class="color-option" style="background-color: #4CAF50;" data-color="#4CAF50"></div>
-                <div class="color-option" style="background-color: #9C27B0;" data-color="#9C27B0"></div>
-                <div class="color-option" style="background-color: #FF5722;" data-color="#FF5722"></div>
+            
+            <div class="theme-controls">
+                <div class="color-palette">
+                    <div class="color-option active" style="background-color: #007BFF;" data-color="#007BFF"></div>
+                    <div class="color-option" style="background-color: #4CAF50;" data-color="#4CAF50"></div>
+                    <div class="color-option" style="background-color: #9C27B0;" data-color="#9C27B0"></div>
+                    <div class="color-option" style="background-color: #FF5722;" data-color="#FF5722"></div>
+                </div>
+                <button id="theme-toggle"><i class="fas fa-moon"></i> <span id="theme-label">Dark Theme</span></button>
             </div>
         </div>
 
-        <div class="input-group">
-            <label id="weight-label"><b>Weight:</b></label>
-            <input type="number" id="weight" placeholder="Enter weight in kg">
+        <div class="input-section">
+            <div class="input-group">
+                <label id="weight-label"><i class="fas fa-weight"></i> Weight (kg)</label>
+                <input type="number" id="weight" placeholder="Enter weight">
+            </div>
+            
+            <div class="input-group">
+                <label id="height-label"><i class="fas fa-ruler-combined"></i> Height</label>
+                <div class="height-inputs">
+                    <input type="number" id="feet" placeholder="Feet">
+                    <input type="number" id="inches" placeholder="Inches" max="11">
+                </div>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label id="height-label"><b>Height:</b></label>
-            <input type="number" id="feet" placeholder="Feet">
+        <div class="action-buttons">
+            <button id="calculate-btn" class="primary-action">
+                <i class="fas fa-calculator"></i> 
+                <span id="calculate-label">Calculate BMI</span>
+            </button>
+            <button id="reset-btn" class="secondary-action">
+                <i class="fas fa-undo"></i> 
+                <span id="reset-label">Reset</span>
+            </button>
         </div>
 
-        <div class="input-group">
-            <label id="inches-label"><b>Height:</b></label>
-            <input type="number" id="inches" placeholder="Inches" max="11">
-        </div>
-
-        <button id="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
-
-        <div id="result" style="display: none;"></div>
-
-        <div class="footer-buttons">
-            <button id="toggleDarkMode"><i class="fas fa-moon"></i> <span id="theme-text">Dark Theme</span></button>
-            <button id="resetButton"><i class="fas fa-redo"></i> <span id="reset-text">Reset</span></button>
+        <div id="result-display" class="result-container">
+            <div class="result-card">
+                <div class="bmi-value" id="bmi-value"></div>
+                <div class="category-display" id="category-display"></div>
+                <div class="health-advice" id="health-advice"></div>
+                <div class="progress-chart" id="progress-chart"></div>
+            </div>
         </div>
 
         <div class="credits">
-            <p>Development by Farhan(figga)</p>
-            <p>Source: Tanvir Hassan</p>
+            <p><i class="fas fa-code"></i> Developed by Farhan</p>
+            <p><i class="fas fa-lightbulb"></i> Source: Tanvir Hassan</p>
         </div>
     </div>
 
