@@ -1,57 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="x-default" dir="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="title">BMI Calculator</title>
-    <link rel="stylesheet" href="./assets/style.css">
+    <title>Global BMI Master</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="default-theme">
-    <div class="credits">
-        <span>Developed by Farhan (Jisan)</span>
-        <span>structure: Tanvir Hassan</span>
+<body class="matrix-theme">
+    <!-- Animated Background Elements -->
+    <div class="particles"></div>
+    <div class="neon-grid"></div>
+
+    <!-- Main Container -->
+    <div class="cyber-container">
+        <!-- Animated Header -->
+        <div class="holographic-header">
+            <div class="glitch-text" data-text="HEALTH AI">HEALTH AI</div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="neuro-panel">
+            <div class="panel-section">
+                <div class="time-display" id="liveClock"></div>
+                <div class="gps-display" id="location"></div>
+            </div>
+            
+            <div class="panel-section">
+                <select id="language" class="neon-select">
+                    <option value="en">🌐 English</option>
+                    <option value="hi">🌐 हिन्दी</option>
+                    <option value="bn">🌐 বাংলা</option>
+                    <option value="tr">🌐 Türkçe</option>
+                    <option value="id">🌐 Bahasa</option>
+                </select>
+                
+                <div class="theme-orb-container">
+                    <div class="theme-orb red" onclick="changeTheme('blood-moon')"></div>
+                    <div class="theme-orb blue" onclick="changeTheme("cyber-ocean")"></div>
+                    <div class="theme-orb matrix" onclick="toggleDarkMode()"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Interface -->
+        <div class="cyber-form">
+            <div class="input-holo">
+                <label data-lang="weight">Weight (kg):</label>
+                <input type="number" id="weight" class="neon-input">
+            </div>
+            
+            <div class="input-holo">
+                <label data-lang="height">Height:</label>
+                <div class="dimension-inputs">
+                    <input type="number" id="feet" class="neon-input">
+                    <input type="number" id="inches" class="neon-input">
+                </div>
+            </div>
+
+            <div class="action-grid">
+                <button onclick="calculateBMI()" class="cyber-button" data-lang="calculate">
+                    <span class="btn-glitch">CALCULATE</span>
+                </button>
+                <button onclick="fullReset()" class="cyber-button danger">
+                    <span class="btn-glitch">RESET SYSTEM</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Advisor -->
+        <div class="ai-terminal" id="aiAdvice">
+            <div class="scanline"></div>
+            <div class="ai-response" id="adviceText"></div>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="settings">
-            <select id="themeSelector" onchange="changeTheme(this.value)">
-                <option value="default-theme">Default</option>
-                <option value="sunset-theme">Sunset</option>
-                <option value="ocean-theme">Ocean</option>
-                <option value="forest-theme">Forest</option>
-                <option value="windows-theme">Dynamic Wallpaper</option>
-            </select>
-
-            <select id="languageSelector" onchange="changeLanguage(this.value)">
-                <option value="en">English</option>
-                <option value="bn">বাংলা</option>
-                <option value="ar">العربية</option>
-                <option value="fa">فارسی</option>
-                <option value="tr">Türkçe</option>
-            </select>
-        </div>
-
-        <div id="localTime" class="time-box glow-text"></div>
-
-        <h2 data-i18n="bmiCalculator" class="animated-title">BMI Calculator</h2>
-
-        <div class="input-group fade-in">
-            <label data-i18n="weightLabel"><b>Weight:</b></label>
-            <input type="number" id="weight" placeholder="kg">
-        </div>
-
-        <div class="input-group fade-in">
-            <label data-i18n="heightLabel"><b>Height:</b></label>
-            <input type="number" id="feet" placeholder="Feet">
-            <input type="number" id="inches" placeholder="Inches" max="11">
-        </div>
-
-        <button onclick="calculateBMI()" class="pulse" data-i18n="calculateBMI">Calculate BMI</button>
-        <div id="result"></div>
-        <button onclick="toggleDarkMode()" class="dark-mode-toggle">Switch Theme</button>
-        <button onclick="resetForm()" data-i18n="reset">Reset</button>
-    </div>
-
-    <script src="./assets/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
