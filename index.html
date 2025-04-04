@@ -7,21 +7,19 @@
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body class="default-theme">
-    <!-- Credits -->
     <div class="credits">
-        <span>Development by Farhan</span>
-        <span>Source: Tanvir Hassan</span>
+        <span>Developed by Farhan (Jisan)</span>
+        <span>structure: Tanvir Hassan</span>
     </div>
 
     <div class="container">
-        <!-- Settings -->
         <div class="settings">
             <select id="themeSelector" onchange="changeTheme(this.value)">
                 <option value="default-theme">Default</option>
                 <option value="sunset-theme">Sunset</option>
                 <option value="ocean-theme">Ocean</option>
                 <option value="forest-theme">Forest</option>
-                <option value="windows-theme">Windows Dynamic</option>
+                <option value="windows-theme">Dynamic Wallpaper</option>
             </select>
 
             <select id="languageSelector" onchange="changeLanguage(this.value)">
@@ -33,27 +31,24 @@
             </select>
         </div>
 
-        <!-- Bangladesh Time -->
-        <div id="bangladeshTime" class="time-box glow-text"></div>
+        <div id="localTime" class="time-box glow-text"></div>
 
-        <h2 data-i18n="bmiCalculator">BMI Calculator</h2>
+        <h2 data-i18n="bmiCalculator" class="animated-title">BMI Calculator</h2>
 
-        <!-- Input Fields -->
-        <div class="input-group">
+        <div class="input-group fade-in">
             <label data-i18n="weightLabel"><b>Weight:</b></label>
             <input type="number" id="weight" placeholder="kg">
         </div>
 
-        <div class="input-group">
+        <div class="input-group fade-in">
             <label data-i18n="heightLabel"><b>Height:</b></label>
             <input type="number" id="feet" placeholder="Feet">
             <input type="number" id="inches" placeholder="Inches" max="11">
         </div>
 
-        <!-- Buttons -->
-        <button onclick="calculateBMI()" data-i18n="calculateBMI">Calculate BMI</button>
+        <button onclick="calculateBMI()" class="pulse" data-i18n="calculateBMI">Calculate BMI</button>
         <div id="result"></div>
-        <button onclick="toggleDarkMode()" data-i18n="toggleTheme">Switch Theme</button>
+        <button onclick="toggleDarkMode()" class="dark-mode-toggle">Switch Theme</button>
         <button onclick="resetForm()" data-i18n="reset">Reset</button>
     </div>
 
