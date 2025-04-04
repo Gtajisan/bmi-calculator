@@ -57,51 +57,52 @@ const translations = {
     }
 };
 
-// AI Advice (Multi-Language)
+// AI Advice
 const aiAdvice = {
     Underweight: {
-        en: "🍎 Eat more protein-rich foods. Consult a nutritionist.",
-        bn: "🍎 প্রোটিন সমৃদ্ধ খাবার খান। পুষ্টিবিদের সাথে পরামর্শ করুন।",
-        ar: "🍎 تناول أطعمة غنية بالبروتين. استشر أخصائي تغذية.",
-        fa: "🍎 غذاهای غنی از پروتئین بخورید. با متخصص تغذیه مشورت کنید.",
-        tr: "🍎 Protein açısından zengin gıdalar tüketin. Bir diyetisyene danışın."
+        en: "🍎 Increase calorie intake with nutrient-rich foods",
+        bn: "🍎 পুষ্টিকর খাবার খান",
+        ar: "🍎 تناول أطعمة غنية بالعناصر الغذائية",
+        fa: "🍎 غذاهای مغذی مصرف کنید",
+        tr: "🍎 Besleyici gıdalar tüketin"
     },
     Normal: {
-        en: "🎉 Maintain a balanced diet and exercise!",
-        bn: "🎉 সুষম খাদ্য এবং ব্যায়াম বজায় রাখুন!",
-        ar: "🎉 حافظ على نظام غذائي متوازن وتمارين!",
-        fa: "🎉 یک رژیم غذایی متعادل و ورزش منظم داشته باشید!",
-        tr: "🎉 Dengeli beslenmeye ve egzersize devam edin!"
+        en: "🎉 Maintain balanced diet and exercise",
+        bn: "🎉 সুষম খাদ্য ও ব্যায়াম বজায় রাখুন",
+        ar: "🎉 حافظ على نظام غذائي متوازن",
+        fa: "🎉 رژیم متعادل و ورزش را حفظ کنید",
+        tr: "🎉 Dengeli beslenmeye devam edin"
     },
     Overweight: {
-        en: "⚠️ Limit sugary drinks. Try brisk walking 30 mins/day.",
-        bn: "⚠️ মিষ্টি কম খান। প্রতিদিন ৩০ মিনিট হাঁটুন।",
-        ar: "⚠️ قلل من المشروبات السكرية. حاول المشي السريع 30 دقيقة/يوم.",
-        fa: "⚠️ مصرف نوشیدنی های شیرین را محدود کنید. روزانه 30 دقیقه پیاده روی تند انجام دهید.",
-        tr: "⚠️ Şekerli içecekleri sınırlayın. Günde 30 dakika tempolu yürüyüş yapın."
-    },
-    Obese1: {
-        en: "🚨 Consult a doctor for a personalized plan.",
-        bn: "🚨 ব্যক্তিগতকৃত পরিকল্পনার জন্য ডাক্তারের সাথে পরামর্শ করুন।",
-        ar: "🚨 استشر طبيبًا للحصول على خطة مخصصة.",
-        fa: "🚨 برای برنامه شخصی سازی شده با پزشک مشورت کنید.",
-        tr: "🚨 Kişiselleştirilmiş bir plan için doktora danışın."
+        en: "⚠️ Limit sugary foods, exercise regularly",
+        bn: "⚠️ মিষ্টি কম খান, নিয়মিত ব্যায়াম করুন",
+        ar: "⚠️ قلل من السكريات وتمرن بانتظام",
+        fa: "⚠️ مصرف شیرینی را کاهش دهید",
+        tr: "⚠️ Şekerli gıdaları sınırlayın"
     }
 };
 
-// Bangladesh Time Zone
-function updateBangladeshTime() {
-    const options = {
-        timeZone: 'Asia/Dhaka',
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-    };
-    const timeString = new Date().toLocaleTimeString('en-BD', options);
-    document.getElementById('bangladeshTime').textContent = `বাংলাদেশের সময়: ${timeString}`;
+// Time Zone Detection
+function updateLocalTime() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const options = {
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                hour: 'numeric',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric'
+            };
+            const formatter = new Intl.DateTimeFormat(navigator.language, options);
+            document.getElementById('localTime').textContent = 
+                `Local Time: ${formatter.format(new Date())}`;
+        });
+    }
 }
-setInterval(updateBangladeshTime, 1000);
+setInterval(updateLocalTime, 1000);
 
 // Theme Management
 function changeTheme(theme) {
@@ -110,17 +111,25 @@ function changeTheme(theme) {
 }
 
 // Language Management
+let currentLang = 'en';
 function changeLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         el.textContent = translations[lang][key];
     });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        el.placeholder = translations[lang][key];
-    });
     localStorage.setItem('language', lang);
+}
+
+// Dark Mode with Particles
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    if(document.body.classList.contains('dark-mode')) {
+        const particles = document.createElement('div');
+        particles.className = 'particles';
+        document.body.appendChild(particles);
+        setTimeout(() => particles.remove(), 5000);
+    }
 }
 
 // BMI Calculation
@@ -131,72 +140,35 @@ function calculateBMI() {
     const resultBox = document.getElementById('result');
 
     // Validation
-    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
+    if (isNaN(weight) || isNaN(feet) || isNaN(inches)) {
         resultBox.style.display = 'block';
-        resultBox.style.opacity = '0';
         resultBox.innerHTML = translations[currentLang].errorMessage;
         resultBox.className = 'error';
-        setTimeout(() => resultBox.style.opacity = '1', 50);
-        setTimeout(resetForm, 1500);
         return;
     }
 
-    // Calculate BMI
-    const totalInches = feet * 12 + inches;
-    const heightInMeters = totalInches * 0.0254;
-    const bmi = weight / (heightInMeters ** 2);
+    // Calculation
+    const totalInches = (feet * 12) + inches;
+    const heightMeters = totalInches * 0.0254;
+    const bmi = weight / (heightMeters ** 2);
 
-    // Determine Category
+    // Result Display
     let category = '';
-    if (bmi < 18.5) {
-        category = 'Underweight';
-        resultBox.className = 'underweight';
-    } else if (bmi < 24.9) {
-        category = 'Normal';
-        resultBox.className = 'normal';
-    } else if (bmi < 29.9) {
-        category = 'Overweight';
-        resultBox.className = 'overweight';
-    } else if (bmi < 34.9) {
-        category = 'Obese1';
-        resultBox.className = 'obese1';
-    } else {
-        category = 'Obese2';
-        resultBox.className = 'obese2';
-    }
+    if (bmi < 18.5) category = 'Underweight';
+    else if (bmi < 24.9) category = 'Normal';
+    else category = 'Overweight';
 
-    // Display Result with AI Advice
-    resultBox.style.display = 'block';
-    resultBox.style.opacity = '0';
     resultBox.innerHTML = `
-        <div class="glow-text">${bmi.toFixed(2)}</div>
+        <div class="glow-text">${bmi.toFixed(1)}</div>
         <div>${category}</div>
-        <div class="ai-advice">${aiAdvice[category][currentLang]}</div>
+        <div class="advice">${aiAdvice[category][currentLang]}</div>
     `;
-    setTimeout(() => resultBox.style.opacity = '1', 50);
-}
-
-// Reset Form
-function resetForm() {
-    document.getElementById('weight').value = '';
-    document.getElementById('feet').value = '';
-    document.getElementById('inches').value = '';
-    const resultBox = document.getElementById('result');
-    resultBox.style.opacity = '0';
-    setTimeout(() => {
-        resultBox.style.display = 'none';
-        resultBox.className = '';
-    }, 300);
-}
-
-// Dark Mode Toggle
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
+    resultBox.style.display = 'block';
 }
 
 // Initialize
-let currentLang = localStorage.getItem('language') || 'en';
 document.addEventListener('DOMContentLoaded', () => {
     changeTheme(localStorage.getItem('theme') || 'default-theme');
-    changeLanguage(currentLang);
+    changeLanguage(localStorage.getItem('language') || 'en');
+    updateLocalTime();
 });
