@@ -1,3 +1,13 @@
+// Function to update the clock showing Bangladesh Standard Time (BST)
+function updateClock() {
+    let timeZone = "Asia/Dhaka"; // Bangladesh Time Zone (BST)
+    let now = new Date();
+    let options = { timeZone: timeZone, hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    let timeString = now.toLocaleTimeString("en-US", options);
+    document.getElementById("clock").innerText = `Time (BST): ${timeString}`;
+}
+
+// Function to calculate BMI
 function calculateBMI() {
     // Get input values from the user
     let weight = parseFloat(document.getElementById("weight").value);
@@ -66,6 +76,7 @@ function calculateBMI() {
     }, 50);
 }
 
+// Function to reset the form
 function resetForm() {
     let resultBox = document.getElementById("result");
 
@@ -83,6 +94,69 @@ function resetForm() {
     document.getElementById("inches").value = "";
 }
 
+// Function to toggle dark mode
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
+    let container = document.querySelector(".container");
+    container.classList.toggle("dark-mode");
+    let buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.classList.toggle("dark-mode"));
 }
+
+// Language toggle functionality
+let language = "en"; // Default language is English
+const translations = {
+    en: {
+        title: "BMI Calculator",
+        weightLabel: "Weight (kg):",
+        heightLabel: "Height:",
+        calculate: "Calculate BMI",
+        reset: "Reset",
+        switchTheme: "Switch Theme",
+        translate: "বাংলা",
+        yourBMI: "Your BMI:",
+        category: "Category:",
+        underweight: "Underweight",
+        normalWeight: "Normal weight",
+        overweight: "Overweight",
+        obese: "Obese",
+        weightError: "Please enter a valid weight in kg.",
+        heightError: "Please enter a valid height in feet and inches.",
+        invalidHeight: "Height must be greater than zero."
+    },
+    bn: {
+        title: "বিএমআই ক্যালকুলেটর",
+        weightLabel: "ওজন (কেজি):",
+        heightLabel: "উচ্চতা:",
+        calculate: "বিএমআই হিসাব করুন",
+        reset: "রিসেট",
+        switchTheme: "থিম পরিবর্তন করুন",
+        translate: "English",
+        yourBMI: "আপনার বিএমআই:",
+        category: "বিভাগ:",
+        underweight: "অপর্যাপ্ত ওজন",
+        normalWeight: "স্বাভাবিক ওজন",
+        overweight: "অতিরিক্ত ওজন",
+        obese: "স্থূল",
+        weightError: "দয়া করে বৈধ ওজন দিন (কেজিতে)।",
+        heightError: "দয়া করে বৈধ উচ্চতা দিন (ফুট এবং ইঞ্চি)।",
+        invalidHeight: "উচ্চতা অবশ্যই শূন্যের বেশি হতে হবে।"
+    }
+};
+
+function toggleLanguage() {
+    language = language === "en" ? "bn" : "en";
+    document.getElementById("translateButton").innerText = translations[language].translate;
+    document.getElementById("title").innerText = translations[language].title;
+    document.getElementById("weight-label").innerText = translations[language].weightLabel;
+    document.getElementById("height-label").innerText = translations[language].heightLabel;
+    document.getElementById("calculate-btn").innerText = translations[language].calculate;
+    document.getElementById("resetButton").innerText = translations[language].reset;
+    document.getElementById("toggleDarkMode").innerText = translations[language].switchTheme;
+}
+
+// Initialize the clock to update every second
+document.addEventListener("DOMContentLoaded", function () {
+    updateClock();
+    setInterval(updateClock, 1000); // Update clock every second
+});
