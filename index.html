@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced BMI Calculator</title>
-    <link rel="stylesheet" href="./assets/style.css">
     <style>
         body {
             background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffdde1);
@@ -72,6 +71,129 @@
         <p id="bmi-category"></p>
     </div>
 
-    <script src="./assets/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateClock();
+            setInterval(updateClock, 1000);
+            populateTimeZones();
+        });
+
+        function updateClock() {
+            let timeZone = document.getElementById("timezone").value || "UTC";
+            let now = new Date();
+            let options = { timeZone: timeZone, hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" };
+            let timeString = now.toLocaleTimeString("en-US", options);
+            document.getElementById("clock").innerText = `Time (${timeZone}): ${timeString}`;
+        }
+
+        function populateTimeZones() {
+            let timeZoneSelect = document.getElementById("timezone");
+            let timeZones = Intl.supportedValuesOf("timeZone");
+
+            timeZones.forEach((zone) => {
+                let option = document.createElement("option");
+                option.value = zone;
+                option.textContent = zone;
+                timeZoneSelect.appendChild(option);
+            });
+
+            timeZoneSelect.addEventListener("change", updateClock);
+        }
+
+        function calculateBMI() {
+            let weight = parseFloat(document.getElementById("weight").value);
+            let feet = parseFloat(document.getElementById("feet").value);
+            let inches = parseFloat(document.getElementById("inches").value);
+
+            let resultDiv = document.getElementById("result");
+            let categoryText = document.getElementById("bmi-category");
+
+            if (isNaN(weight) || weight <= 0) {
+                alert(translations[language].weightError);
+                return;
+            }
+            if (isNaN(feet) || feet < 0 || isNaN(inches) || inches < 0 || inches > 11) {
+                alert(translations[language].heightError);
+                return;
+            }
+
+            let totalInches = (feet * 12) + inches;
+            let heightInMeters = totalInches * 0.0254;
+
+            if (heightInMeters <= 0) {
+                alert(translations[language].invalidHeight);
+                return;
+            }
+
+            let bmi = weight / (heightInMeters * heightInMeters);
+            bmi = bmi.toFixed(2);
+
+            let category = bmi < 18.5 ? translations[language].underweight :
+                        bmi < 24.9 ? translations[language].normalWeight :
+                        bmi < 29.9 ? translations[language].overweight : translations[language].obese;
+
+            resultDiv.innerHTML = `${translations[language].yourBMI} <b>${bmi}</b>`;
+            categoryText.innerHTML = `${translations[language].category} <b>${category}</b>`;
+            resultDiv.style.display = "block";
+        }
+
+        function resetForm() {
+            document.getElementById("weight").value = "";
+            document.getElementById("feet").value = "";
+            document.getElementById("inches").value = "";
+            document.getElementById("result").style.display = "none";
+            document.getElementById("bmi-category").innerHTML = "";
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        let language = "en";
+        const translations = {
+            en: {
+                title: "BMI Calculator",
+                weightLabel: "Weight (kg):",
+                heightLabel: "Height:",
+                calculate: "Calculate BMI",
+                reset: "Reset",
+                switchTheme: "Switch Theme",
+                translate: "বাংলা",
+                yourBMI: "Your BMI:",
+                category: "Category:",
+                underweight: "Underweight",
+                normalWeight: "Normal weight",
+                overweight: "Overweight",
+                obese: "Obese",
+                weightError: "Please enter a valid weight in kg.",
+                heightError: "Please enter a valid height in feet and inches.",
+                invalidHeight: "Height must be greater than zero."
+            },
+            bn: {
+                title: "বিএমআই ক্যালকুলেটর",
+                weightLabel: "ওজন (কেজি):",
+                heightLabel: "উচ্চতা:",
+                calculate: "বিএমআই হিসাব করুন",
+                reset: "রিসেট",
+                switchTheme: "থিম পরিবর্তন করুন",
+                translate: "English",
+                yourBMI: "আপনার বিএমআই:",
+                category: "বিভাগ:",
+                underweight: "অপর্যাপ্ত ওজন",
+                normalWeight: "স্বাভাবিক ওজন",
+                overweight: "অতিরিক্ত ওজন",
+                obese: "স্থূল",
+                weightError: "দয়া করে বৈধ ওজন দিন (কেজিতে)।",
+                heightError: "দয়া করে বৈধ উচ্চতা দিন (ফুট এবং ইঞ্চি)।",
+                invalidHeight: "উচ্চতা অবশ্যই শূন্যের বেশি হতে হবে।"
+            }
+        };
+
+        function toggleLanguage() {
+            language = language === "en" ? "bn" : "en";
+            document.getElementById("translateButton").innerText = translations[language].translate;
+            document.getElementById("title").innerText = translations[language].title;
+        }
+    </script>
 </body>
 </html>
