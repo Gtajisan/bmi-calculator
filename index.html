@@ -4,243 +4,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced BMI Calculator</title>
+    <link rel="stylesheet" href="./assets/style.css">
     <style>
+        /* Dynamic Background Styles */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             color: #333;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .container {
+        /* Full-screen background */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        /* Container for content */
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
             border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
-            color: #333;
-            margin-bottom: 20px;
+            color: #007BFF;
         }
 
         .input-group {
-            margin: 20px 0;
+            margin: 10px 0;
+            text-align: left;
         }
 
         input {
+            width: calc(100% - 20px);
             padding: 10px;
-            width: 70%;
-            border-radius: 5px;
+            margin: 5px 0;
             border: 1px solid #ccc;
-            font-size: 16px;
+            border-radius: 5px;
         }
 
         button {
-            padding: 12px 20px;
-            border: none;
-            background-color: #4CAF50;
+            background: #007BFF;
             color: white;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 10px;
+            border: none;
             border-radius: 5px;
-            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
         button:hover {
-            background-color: #45a049;
+            background: #0056b3;
         }
 
-        #result {
-            margin-top: 20px;
-            display: none;
-        }
-
-        #bmi-category {
-            font-weight: bold;
-        }
-
-        #resetButton {
-            background-color: #f44336;
-        }
-
-        #toggleDarkMode {
-            background-color: #333;
-        }
-
-        #resetButton, #toggleDarkMode {
-            margin-top: 10px;
-        }
-
-        #clock {
-            margin-top: 10px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        
         .dark-mode {
-            background-color: #222;
+            background-color: #1e1e1e;
             color: white;
         }
 
+        .dark-mode .container {
+            background: #333;
+        }
+
         .dark-mode button {
-            background-color: #444;
+            background: #FF5722;
+        }
+
+        .dark-mode button:hover {
+            background: #E64A19;
+        }
+
+        #result {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInSmooth 0.8s ease-out forwards;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #e0f7fa;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007BFF;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeInSmooth {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* BMI Categories */
+        .underweight {
+            background-color: #ffcc00;
+            color: #ffffff;
+        }
+
+        .normal {
+            background-color: #4caf50;
+            color: #ffffff;
+        }
+
+        .overweight {
+            background-color: #ff9800;
+            color: #ffffff;
+        }
+
+        .obese1 {
+            background-color: #f44336;
+            color: #ffffff;
+        }
+
+        .obese2 {
+            background-color: #d32f2f;
+            color: #ffffff;
+        }
+
+        .obese3 {
+            background-color: #b71c1c;
+            color: #ffffff;
+        }
+
+        /* Styling for invalid data message */
+        #result.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Add margin to the bottom of the result box */
+        #result {
+            margin-bottom: 10px;
+        }
+
+        /* Clock Time */
+        #bangladesh-time {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #007BFF;
+        }
+
+        /* Greeting */
+        #greeting {
+            font-size: 20px;
+            color: #007BFF;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
+    <div class="background-container" id="background-container"></div>
     <div class="container">
-        <h2 id="title">BMI Calculator</h2>
+        <h2>BMI Calculator</h2>
         <p>Developed by Farhan</p>
-        <p>Lead Source: Tanvir Hasan</p>
 
+        <!-- Greeting -->
+        <div id="greeting">Hey User, How are you?</div>
+
+        <!-- Name Input -->
+        <div class="input-group">
+            <label><b>Your Name:</b></label>
+            <input type="text" id="username" placeholder="Enter your name" oninput="updateGreeting()">
+        </div>
+
+        <!-- Weight and Height Inputs -->
         <div class="input-group">
             <label><b>Weight (kg):</b></label>
-            <input type="number" id="weight" placeholder="Enter weight" min="1">
+            <input type="number" id="weight" placeholder="Enter weight" oninput="calculateBMI()" min="1">
         </div>
 
         <div class="input-group">
             <label><b>Height:</b></label>
-            <input type="number" id="feet" placeholder="Feet" min="0">
-            <input type="number" id="inches" placeholder="Inches" min="0" max="11">
+            <input type="number" id="feet" placeholder="Feet" oninput="calculateBMI()" min="0">
+            <input type="number" id="inches" placeholder="Inches" oninput="calculateBMI()" min="0" max="11">
         </div>
 
         <button onclick="calculateBMI()">Calculate BMI</button>
-        <div id="result"></div>
+
+        <div id="result" style="display: none;"></div>
         <p id="bmi-category"></p>
 
-        <button id="resetButton" onclick="resetForm()">Reset</button>
         <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
+        <button id="resetButton" onclick="resetForm()">Reset</button>
 
-        <div>
-            <p id="clock"></p>
-        </div>
-
-        <button id="translateButton" onclick="toggleLanguage()">বাংলা</button>
+        <div id="bangladesh-time"></div>
     </div>
 
+    <script src="./assets/script.js"></script>
     <script>
-        let language = "en";
-        const translations = {
-            en: {
-                title: "BMI Calculator",
-                weightLabel: "Weight (kg):",
-                heightLabel: "Height:",
-                calculate: "Calculate BMI",
-                reset: "Reset",
-                switchTheme: "Switch Theme",
-                translate: "বাংলা",
-                yourBMI: "Your BMI:",
-                category: "Category:",
-                underweight: "Underweight",
-                normalWeight: "Normal weight",
-                overweight: "Overweight",
-                obese: "Obese",
-                weightError: "Please enter a valid weight in kg.",
-                heightError: "Please enter a valid height in feet and inches.",
-                invalidHeight: "Height must be greater than zero."
-            },
-            bn: {
-                title: "বিএমআই ক্যালকুলেটর",
-                weightLabel: "ওজন (কেজি):",
-                heightLabel: "উচ্চতা:",
-                calculate: "বিএমআই হিসাব করুন",
-                reset: "রিসেট",
-                switchTheme: "থিম পরিবর্তন করুন",
-                translate: "English",
-                yourBMI: "আপনার বিএমআই:",
-                category: "বিভাগ:",
-                underweight: "অপর্যাপ্ত ওজন",
-                normalWeight: "স্বাভাবিক ওজন",
-                overweight: "অতিরিক্ত ওজন",
-                obese: "স্থূল",
-                weightError: "দয়া করে বৈধ ওজন দিন (কেজিতে)।",
-                heightError: "দয়া করে বৈধ উচ্চতা দিন (ফুট এবং ইঞ্চি)।",
-                invalidHeight: "উচ্চতা অবশ্যই শূন্যের বেশি হতে হবে।"
-            }
-        };
+        const backgroundImages = [
+            'url(https://example.com/image1.jpg)', 
+            'url(https://example.com/image2.jpg)', 
+            'url(https://example.com/image3.jpg)',
+            'url(https://example.com/image4.jpg)'
+        ];
 
-        function updateClock() {
-            let timeZone = "Asia/Dhaka"; // Bangladesh Time Zone (BST)
-            let now = new Date();
-            let options = { timeZone: timeZone, hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" };
-            let timeString = now.toLocaleTimeString("en-US", options);
-            document.getElementById("clock").innerText = `Time (BST): ${timeString}`;
+        let currentImageIndex = 0;
+        
+        function changeBackground() {
+            const container = document.getElementById('background-container');
+            container.style.backgroundImage = backgroundImages[currentImageIndex];
+            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
         }
 
-        function calculateBMI() {
-            let weight = parseFloat(document.getElementById("weight").value);
-            let feet = parseFloat(document.getElementById("feet").value);
-            let inches = parseFloat(document.getElementById("inches").value);
+        setInterval(changeBackground, 10000);  // Change image every 10 seconds
+        changeBackground();  // Initial background change
 
-            let resultDiv = document.getElementById("result");
-            let categoryText = document.getElementById("bmi-category");
-
-            if (isNaN(weight) || weight <= 0) {
-                alert(translations[language].weightError);
-                return;
-            }
-            if (isNaN(feet) || feet < 0 || isNaN(inches) || inches < 0 || inches > 11) {
-                alert(translations[language].heightError);
-                return;
-            }
-
-            let totalInches = (feet * 12) + inches;
-            let heightInMeters = totalInches * 0.0254;
-
-            if (heightInMeters <= 0) {
-                alert(translations[language].invalidHeight);
-                return;
-            }
-
-            let bmi = weight / (heightInMeters * heightInMeters);
-            bmi = bmi.toFixed(2);
-
-            let category = bmi < 18.5 ? translations[language].underweight :
-                        bmi < 24.9 ? translations[language].normalWeight :
-                        bmi < 29.9 ? translations[language].overweight : translations[language].obese;
-
-            resultDiv.innerHTML = `${translations[language].yourBMI} <b>${bmi}</b>`;
-            categoryText.innerHTML = `${translations[language].category} <b>${category}</b>`;
-            resultDiv.style.display = "block";
+        // Clock for Bangladesh time
+        function updateBangladeshTime() {
+            const date = new Date();
+            const bangladeshTime = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
+            const timeString = bangladeshTime.toLocaleTimeString();
+            document.getElementById('bangladesh-time').innerText = `Bangladesh Time: ${timeString}`;
         }
 
-        function resetForm() {
-            document.getElementById("weight").value = "";
-            document.getElementById("feet").value = "";
-            document.getElementById("inches").value = "";
-            document.getElementById("result").style.display = "none";
-            document.getElementById("bmi-category").innerHTML = "";
-        }
+        setInterval(updateBangladeshTime, 1000);  // Update time every second
 
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-            let container = document.querySelector(".container");
-            container.classList.toggle("dark-mode");
-            let buttons = document.querySelectorAll("button");
-            buttons.forEach(button => button.classList.toggle("dark-mode"));
+        // Update greeting with user's name
+        function updateGreeting() {
+            const userName = document.getElementById('username').value;
+            const greetingMessage = userName ? `Hey ${userName}, How are you?` : 'Hey User, How are you?';
+            document.getElementById('greeting').innerText = greetingMessage;
         }
-
-        function toggleLanguage() {
-            language = language === "en" ? "bn" : "en";
-            document.getElementById("translateButton").innerText = translations[language].translate;
-            document.getElementById("title").innerText = translations[language].title;
-            document.getElementById("weight-label").innerText = translations[language].weightLabel;
-            document.getElementById("height-label").innerText = translations[language].heightLabel;
-            document.getElementById("calculate-btn").innerText = translations[language].calculate;
-            document.getElementById("resetButton").innerText = translations[language].reset;
-            document.getElementById("toggleDarkMode").innerText = translations[language].switchTheme;
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            updateClock();
-            setInterval(updateClock, 1000); // Update clock every second
-        });
     </script>
 </body>
-</html>
+    </html>
+    
