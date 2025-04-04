@@ -1,157 +1,123 @@
-/* General Reset */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
+// User Greeting
+function setUsername() {
+    let name = prompt("Hey user, what's your name?");
+    document.getElementById("greeting").innerText = `Hey ${name}, how are you?`;
 }
 
-/* Container */
-.container {
-    background: white;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+// Calculate BMI
+function calculateBMI() {
+    let weight = parseFloat(document.getElementById("weight").value);
+    let feet = parseInt(document.getElementById("feet").value);
+    let inches = parseInt(document.getElementById("inches").value);
+    let resultBox = document.getElementById("result");
 
-/* Headings */
-h2 {
-    color: #007BFF;
-}
-
-/* Input Fields */
-.input-group {
-    margin: 10px 0;
-    text-align: left;
-}
-
-input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Buttons */
-button {
-    background: #007BFF;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
-/* Dark Mode */
-.dark-mode {
-    background-color: #1e1e1e;
-    color: white;
-}
-
-.dark-mode .container {
-    background: #333;
-}
-
-.dark-mode button {
-    background: #FF5722;
-}
-
-.dark-mode button:hover {
-    background: #E64A19;
-}
-
-/* Result Box */
-#result {
-    display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInSmooth 0.8s ease-out forwards;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #e0f7fa;
-    font-size: 18px;
-    font-weight: bold;
-    color: #007BFF;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease-in-out;
-}
-
-/* Keyframes for Smooth Fade-in */
-@keyframes fadeInSmooth {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
+        resultBox.style.display = "block";
+        resultBox.innerHTML = "Please fill in all fields with valid data";
+        resultBox.style.background = "red";
+        resultBox.style.color = "white";
+        return;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    // Calculate BMI
+    let totalInches = (feet * 12) + inches;
+    let heightInMeters = totalInches * 0.0254;
+    let bmi = weight / (heightInMeters * heightInMeters);
+
+    // BMI Categories
+    let category = "";
+    if (bmi < 18.5) {
+        category = "Underweight";
+        resultBox.className = "underweight";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        category = "Normal weight";
+        resultBox.className = "normal";
+    } else if (bmi >= 25 && bmi < 29.9) {
+        category = "Overweight";
+        resultBox.className = "overweight";
+    } else if (bmi >= 30 && bmi < 34.9) {
+        category = "Obese Class 1 (Moderate obesity)";
+        resultBox.className = "obese1";
+    } else if (bmi >= 35 && bmi < 39.9) {
+        category = "Obese Class 2 (Severe obesity)";
+        resultBox.className = "obese2";
+    } else {
+        category = "Obese Class 3 (Very severe or morbidly obese)";
+        resultBox.className = "obese3";
     }
+
+    // Health Suggestion based on BMI
+    let healthSuggestion = "";
+    if (bmi < 18.5) {
+        healthSuggestion = "You are underweight. Consider consulting a healthcare provider for a balanced diet.";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        healthSuggestion = "You have a healthy weight. Keep maintaining a balanced diet and regular exercise.";
+    } else if (bmi >= 25 && bmi < 29.9) {
+        healthSuggestion = "You are overweight. A healthy diet and exercise can help you reduce weight.";
+    } else {
+        healthSuggestion = "You are obese. It is advised to seek medical advice and consider a weight loss plan.";
+    }
+
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
+    document.getElementById("health-suggestion").innerText = healthSuggestion;
 }
 
-/* BMI Categories */
-.underweight {
-    background-color: #ffcc00;
-    color: #ffffff;
+// Reset Form
+function resetForm() {
+    let resultBox = document.getElementById("result");
+    resultBox.style.display = "none";
+    document.getElementById("weight").value = "";
+    document.getElementById("feet").value = "";
+    document.getElementById("inches").value = "";
 }
 
-.normal {
-    background-color: #4caf50;
-    color: #ffffff;
+// Toggle Dark Mode
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
 }
 
-.overweight {
-    background-color: #ff9800;
-    color: #ffffff;
+// Clock Function (Bangladesh Time)
+function startClock() {
+    let clockElement = document.getElementById("clock");
+    setInterval(() => {
+        let now = new Date();
+        let bangladeshTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Dhaka" }));
+        clockElement.innerText = `Bangladesh Time: ${bangladeshTime.toLocaleTimeString()}`;
+    }, 1000);
 }
 
-.obese1 {
-    background-color: #f44336;
-    color: #ffffff;
+// Change Background Image Randomly Every 5 seconds
+function changeBackground() {
+    const images = [
+        'https://via.placeholder.com/1200x800/ff0000',
+        'https://via.placeholder.com/1200x800/00ff00',
+        'https://via.placeholder.com/1200x800/0000ff',
+        'https://via.placeholder.com/1200x800/ffff00'
+    ];
+    setInterval(() => {
+        let randomIndex = Math.floor(Math.random() * images.length);
+        document.body.style.backgroundImage = `url(${images[randomIndex]})`;
+    }, 5000);
 }
 
-.obese2 {
-    background-color: #d32f2f;
-    color: #ffffff;
+// Translate to Bangla
+function translateToBangla() {
+    document.getElementById("greeting").innerText = "হ্যালো, আপনি কেমন আছেন?";
+    document.getElementById("bmi-category").innerText = "বিএমআই ক্যাটেগরি:";
+    document.getElementById("health-suggestion").innerText = "স্বাস্থ্য পরামর্শ:";
 }
 
-.obese3 {
-    background-color: #b71c1c;
-    color: #ffffff;
-}
-
-/* Styling for invalid data message */
-#result.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-
-/* Add margin to the bottom of the result box */
-#result {
-    margin-bottom: 10px;
-}
-
-/* Clock Time */
-#bangladesh-time {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #007BFF;
+// AI Assistant - Giving Suggestions based on BMI
+function aiAssistant() {
+    let aiMessage = "";
+    let bmi = parseFloat(document.getElementById("weight").value);
+    if (bmi < 18.5) {
+        aiMessage = "You might be underweight. Consider eating more balanced meals.";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        aiMessage = "You're in a healthy weight range. Keep up the good work!";
+    } else {
+        aiMessage = "You may want to start a healthy weight loss journey.";
+    }
+    document.getElementById("ai-message").innerText = aiMessage;
 }
