@@ -3,31 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
+    <title>Advanced BMI Calculator</title>
     <link rel="stylesheet" href="./assets/style.css">
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>BMI Calculator</h2>
+        <p>Developed by Farhan</p>
 
         <div class="input-group">
-            <label><b>Weight:</b></label>
-            <input type="number" id="weight" placeholder="Enter weight in kg">
+            <label><b>Weight (kg):</b></label>
+            <input type="number" id="weight" placeholder="Enter weight" oninput="calculateBMI()" min="1">
         </div>
 
         <div class="input-group">
             <label><b>Height:</b></label>
-            <input type="number" id="feet" placeholder="Feet">
-        </div>
-
-        <div class="input-group">
-            <label><b>Height:</b></label>
-            <input type="number" id="inches" placeholder="Inches" max="11">
+            <input type="number" id="feet" placeholder="Feet" oninput="calculateBMI()" min="0">
+            <input type="number" id="inches" placeholder="Inches" oninput="calculateBMI()" min="0" max="11">
         </div>
 
         <button onclick="calculateBMI()">Calculate BMI</button>
 
         <div id="result" style="display: none;"></div>
+        
+        <p id="bmi-category"></p>
 
         <button id="toggleDarkMode" onclick="toggleDarkMode()">Switch Theme</button>
         <button id="resetButton" onclick="resetForm()">Reset</button>
