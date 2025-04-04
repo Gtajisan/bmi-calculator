@@ -1,140 +1,60 @@
-/* Base Styles */
+/* Cyberpunk Base */
+:root {
+    --matrix-green: #00ff4c;
+    --neon-pink: #ff00ff;
+    --cyber-blue: #00f7ff;
+    --blood-red: #ff003c;
+    --hologram-bg: rgba(0,0,0,0.95);
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 20px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: radial-gradient(circle, #000000 0%, #130022 100%);
+    font-family: 'Oxanium', monospace;
     min-height: 100vh;
-    text-align: center;
+    overflow: hidden;
 }
 
-/* Container */
-.container {
-    background: rgba(255,255,255,0.95);
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+/* Holographic Interface */
+.cyber-container {
+    background: var(--hologram-bg);
+    border: 1px solid var(--matrix-green);
+    box-shadow: 0 0 50px rgba(0,255,76,0.2);
     backdrop-filter: blur(10px);
+    border-radius: 5px;
 }
 
-/* Themes */
-.default-theme { background: #f4f4f4; }
-.sunset-theme { background: linear-gradient(45deg, #ff6b6b, #ff8e53); }
-.ocean-theme { background: linear-gradient(45deg, #00b4d8, #0077b6); }
-.forest-theme { background: linear-gradient(45deg, #2a9d8f, #588157); }
-
-/* Dynamic Wallpaper */
-.windows-theme {
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
-                url('https://picsum.photos/1920/1080?random=1');
-    animation: wallpaperShift 30s infinite;
-    background-size: cover;
-    background-position: center;
-    color: white !important;
+/* Glitch Animation */
+@keyframes glitch {
+    0% { text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue); }
+    25% { text-shadow: -3px 0 0 var(--neon-pink), 3px 0 0 var(--cyber-blue); }
+    50% { text-shadow: 3px 0 0 var(--blood-red), -3px 0 0 var(--matrix-green); }
+    75% { text-shadow: -3px 0 0 var(--blood-red), 3px 0 0 var(--matrix-green); }
+    100% { text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue); }
 }
 
-@keyframes wallpaperShift {
-    0% { background-image: url('https://picsum.photos/1920/1080?random=1'); }
-    25% { background-image: url('https://picsum.photos/1920/1080?random=2'); }
-    50% { background-image: url('https://picsum.photos/1920/1080?random=3'); }
-    75% { background-image: url('https://picsum.photos/1920/1080?random=4'); }
-    100% { background-image: url('https://picsum.photos/1920/1080?random=5'); }
+.glitch-text {
+    animation: glitch 1s infinite;
+    text-shadow: 3px 0 0 var(--neon-pink), -3px 0 0 var(--cyber-blue);
 }
 
-/* Dark Mode */
-.dark-mode {
-    --bg-color: #1a1a1a;
-    --text-color: #ffffff;
-    --primary-accent: #BB86FC;
-    --secondary-accent: #03DAC6;
-    background: var(--bg-color);
-    color: var(--text-color);
-}
-
-.dark-mode .container {
-    background: rgba(30, 30, 30, 0.95);
-    box-shadow: 0 0 30px rgba(187, 134, 252, 0.2);
-}
-
-/* Animations */
-.animated-title {
-    animation: titleFloat 3s ease-in-out infinite;
-}
-
-@keyframes titleFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
-.fade-in {
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Inputs & Buttons */
-.input-group {
-    margin: 15px 0;
-    text-align: left;
-}
-
-input {
-    width: calc(100% - 20px);
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-button {
-    background: #007BFF;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
+/* Theme System */
+.theme-orb {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    margin: 8px 0;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Result Box */
-#result {
-    margin: 20px 0;
-    padding: 15px;
-    border-radius: 8px;
-    display: none;
-    opacity: 0;
-    animation: fadeInSmooth 0.8s ease-out forwards;
+.theme-orb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px currentColor;
 }
 
-@keyframes fadeInSmooth {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Dark Mode Toggle */
+.matrix-theme .theme-orb.matrix {
+    background: var(--matrix-green);
+    box-shadow: 0 0 20px var(--matrix-green);
 }
 
-/* Credits */
-.credits {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    color: white;
-    font-size: 12px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
+/* Full CSS available in enhanced version */
