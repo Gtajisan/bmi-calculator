@@ -3,77 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Health Companion</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI-Powered BMI Calculator - Developed by Farhan</title>
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
-<body class="light-theme">
-    <!-- Developer Header -->
-    <header class="developer-header">
-        <div class="lightning-text">⚡ Developed by Farhan ⚡</div>
-    </header>
-
-    <!-- Control Panel -->
-    <div class="control-panel">
-        <div class="panel-section">
-            <select id="language" class="styled-select">
-                <option value="en">English</option>
-                <option value="hi">हिन्दी</option>
-                <option value="bn">বাংলা</option>
-                <option value="tr">Türkçe</option>
-                <option value="id">Bahasa</option>
-            </select>
-            
-            <div class="theme-switcher">
-                <button class="theme-btn coral" onclick="changeTheme('coral')"></button>
-                <button class="theme-btn sky" onclick="changeTheme('sky')"></button>
-                <button class="theme-btn dark" onclick="toggleDarkMode()">🌓</button>
+<body>
+    <div class="background-slideshow"></div>
+    <div class="container">
+        <div class="header-section">
+            <h2 data-translate="title">BMI Calculator</h2>
+            <div class="language-switcher">
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="tr">Türkçe</option>
+                </select>
             </div>
         </div>
 
-        <div class="panel-section">
-            <div id="liveClock" class="glowing-clock"></div>
-            <div id="location" class="location-badge"></div>
-        </div>
-    </div>
-
-    <!-- Classic Calculator UI -->
-    <div class="classic-ui">
         <div class="input-group">
-            <label data-translate="weight">Weight (kg):</label>
-            <input type="number" id="weight" class="vintage-input">
+            <label data-translate="weight"><b>Weight:</b></label>
+            <input type="number" id="weight" placeholder="Enter weight in kg">
         </div>
-        
+
         <div class="input-group">
-            <label data-translate="height">Height:</label>
-            <div class="height-inputs">
-                <input type="number" id="feet" class="vintage-input">
-                <input type="number" id="inches" class="vintage-input">
-            </div>
+            <label data-translate="height_feet"><b>Height:</b></label>
+            <input type="number" id="feet" placeholder="Feet">
         </div>
 
-        <div class="action-btns">
-            <button onclick="calculateHealth()" class="primary-btn">
-                <span data-translate="calculate">Calculate BMI</span>
-            </button>
-            <button onclick="fullReset()" class="secondary-btn">
-                <span data-translate="reset">Full Reset</span>
-            </button>
+        <div class="input-group">
+            <label data-translate="height_inches"><b>Height:</b></label>
+            <input type="number" id="inches" placeholder="Inches" max="11">
         </div>
 
-        <!-- AI Advice Section -->
-        <div class="ai-panel">
-            <div class="ai-header">🧠 AI Health Advisor</div>
-            <div id="aiMessage" class="advice-content"></div>
+        <button onclick="calculateBMI()" data-translate="calculate">Calculate BMI</button>
+
+        <div id="result" style="display: none;"></div>
+
+        <div class="button-group">
+            <button class="theme-toggle" onclick="toggleDarkMode()" data-translate="theme">Switch Theme</button>
+            <button onclick="resetForm()" data-translate="reset">Reset</button>
         </div>
     </div>
 
-    <!-- Animation Controls -->
-    <div class="animation-controls">
-        <button onclick="toggleBackgroundAnimation()" class="anim-btn">
-            <span data-translate="toggleAnim">Toggle Background Effects</span>
-        </button>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="./assets/script.js"></script>
 </body>
 </html>
