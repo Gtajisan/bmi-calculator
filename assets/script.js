@@ -1,74 +1,68 @@
-// Multi-language Support
+// Enhanced Language Support
 const translations = {
     en: {
-        title: "BMI Calculator",
-        weight: "Weight:",
-        height_feet: "Height (Feet):",
-        height_inches: "Height (Inches):",
-        calculate: "Calculate BMI",
-        theme: "Switch Theme",
-        reset: "Reset",
-        // ... other translations
+        title: "AI BMI Calculator",
+        weight: "Weight (kg):",
+        height_feet: "Feet:",
+        height_inches: "Inches:",
+        calculate: "Analyze BMI",
+        theme: "Toggle Theme",
+        adviceLabels: {
+            underweight: "You're underweight",
+            normal: "Healthy weight",
+            overweight: "Overweight",
+            obese: "Obese"
+        }
     },
     bn: {
-        title: "বিএমআই ক্যালকুলেটর",
-        weight: "ওজন:",
-        height_feet: "উচ্চতা (ফুট):",
-        height_inches: "উচ্চতা (ইঞ্চি):",
-        calculate: "বিএমআই গণনা করুন",
-        theme: "থিম পরিবর্তন",
-        reset: "রিসেট"
-    },
-    hi: {
-        title: "बीएमआई कैलकुलेटर",
-        weight: "वजन:",
-        height_feet: "ऊंचाई (फीट):",
-        height_inches: "ऊंचाई (इंच):",
-        calculate: "बीएमआई की गणना करें",
-        theme: "थीम बदलें",
-        reset: "रीसेट"
-    },
-    tr: {
-        title: "BMI Hesaplayıcı",
-        weight: "Ağırlık:",
-        height_feet: "Boy (Fit):",
-        height_inches: "Boy (İnç):",
-        calculate: "BMI Hesapla",
-        theme: "Temayı Değiştir",
-        reset: "Sıfırla"
+        title: "এআই বিএমআই ক্যালকুলেটর",
+        weight: "ওজন (কেজি):",
+        height_feet: "ফুট:",
+        height_inches: "ইঞ্চি:",
+        calculate: "বিএমআই বিশ্লেষণ করুন",
+        theme: "থিম পরিবর্তন করুন",
+        adviceLabels: {
+            underweight: "আপনি কম ওজনের",
+            normal: "সুস্থ ওজন",
+            overweight: "অতিরিক্ত ওজন",
+            obese: "স্থূলতা"
+        }
     }
 };
 
-// AI Integration
-async function getAIAdvice(bmi, category) {
-    try {
-        const response = await fetch('/api/ai-advice', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ bmi, category, language: currentLanguage })
-        });
-        return await response.json();
-    } catch (error) {
-        return translations[currentLanguage].ai_error;
-    }
+// Enhanced AI Integration
+async function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const feet = parseFloat(document.getElementById('feet').value);
+    const inches = parseFloat(document.getElementById('inches').value);
+    
+    const totalInches = (feet * 12) + inches;
+    const bmi = (weight / (totalInches * totalInches)) * 703;
+    
+    const category = getBMICategory(bmi);
+    const advice = await getAIAdvice(bmi, category);
+    
+    showResult(bmi, category, advice);
 }
 
-// Enhanced Theme Toggle
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    document.querySelector('.theme-toggle').style.transform = 'rotate(360deg)';
-    setTimeout(() => document.querySelector('.theme-toggle').style.transform = '', 500);
+function getBMICategory(bmi) {
+    if (bmi < 18.5) return 'underweight';
+    if (bmi < 25) return 'normal';
+    if (bmi < 30) return 'overweight';
+    return 'obese';
 }
 
-// Dynamic Backgrounds
-const backgrounds = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg'];
-let currentBg = 0;
-
-function changeBackground() {
-    document.querySelector('.background-slideshow').style.backgroundImage = 
-        `url(${backgrounds[currentBg]})`;
-    currentBg = (currentBg + 1) % backgrounds.length;
+async function showResult(bmi, category, advice) {
+    const resultDiv = document.getElementById('result');
+    const labels = translations[currentLanguage].adviceLabels;
+    
+    resultDiv.innerHTML = `
+        <h3>${labels[category]}</h3>
+        <p>BMI: ${bmi.toFixed(1)}</p>
+        <div class="ai-response">
+            <strong>AI Advice:</strong>
+            <p>${advice}</p>
+        </div>
+    `;
+    resultDiv.style.display = 'block';
 }
-
-setInterval(changeBackground, 10000);
